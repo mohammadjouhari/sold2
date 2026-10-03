@@ -70,8 +70,8 @@ namespace ShopexCoreV2.Pages
 
             };
             SqlHelper1.ExecuteNonQuery(connectionString, CommandType.StoredProcedure, "InsertUser", parameters);
-            HttpContext.Session.SetString("User", JsonConvert.SerializeObject(RegisteredUser));
-            return RedirectToPage("Products");
+            //HttpContext.Session.SetString("User", JsonConvert.SerializeObject(RegisteredUser));
+            return RedirectToPage("Login");
         }
     }
 }
