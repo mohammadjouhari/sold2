@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json.Serialization;
-
-namespace ShopexCoreV2
+﻿namespace ShopexCoreV2
 {
     public class CustomExceptionHandler
     {
@@ -15,7 +13,7 @@ namespace ShopexCoreV2
             var error = feature?.Error;
             if (error != null)
             {
-               
+                // Log your exception;
             }
             await Task.CompletedTask;
         }

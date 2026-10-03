@@ -1,4 +1,5 @@
-﻿namespace ShopexCoreV2.Models
+﻿using System.IO;
+namespace ShopexCoreV2.Models
 {
     public class User
     {
@@ -10,7 +11,6 @@
         public string Mobile { get; set; }
         public string Passwprd { get; set; }
         public string ConfirmPasswprd { get; set; }
-
         public string Email { get; set; }
     }
 }

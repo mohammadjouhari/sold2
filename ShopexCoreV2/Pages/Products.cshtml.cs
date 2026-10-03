@@ -14,8 +14,14 @@ namespace ShopexCoreV2.Pages
         {
             connectionString = configuration.GetConnectionString("sold");
         }
+        // Works only for post request,not get;
+        //  [BindProperty]
+       // [BindProperty(SupportsGet = true)]
         [BindProperty]
         public List<Product> Products { get; set; }
+
+
+
         public IActionResult OnGet()
         {
             //Cehck is users is logged in;

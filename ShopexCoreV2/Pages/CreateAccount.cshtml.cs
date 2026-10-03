@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Newtonsoft.Json;
 using ShopexCoreV2.Data;
 using ShopexCoreV2.Models;
 using System.Data;
@@ -69,6 +70,7 @@ namespace ShopexCoreV2.Pages
 
             };
             SqlHelper1.ExecuteNonQuery(connectionString, CommandType.StoredProcedure, "InsertUser", parameters);
+            HttpContext.Session.SetString("User", JsonConvert.SerializeObject(RegisteredUser));
             return RedirectToPage("Products");
         }
     }

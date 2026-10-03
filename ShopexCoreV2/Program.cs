@@ -1,15 +1,15 @@
 using ShopexCoreV2;
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddRazorPages(options =>
-{
-}).AddRazorPagesOptions(options =>
-{
-    options.Conventions.AddPageRoute("/Login", "");
-});
+builder.Services.AddRazorPages(options => { })
+    .AddRazorPagesOptions(options => {
+        options.Conventions.AddPageRoute("/Login", "");
+    });
+
+builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromSeconds(10);
+    options.IdleTimeout = TimeSpan.FromSeconds(40000);
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });

@@ -42,24 +42,10 @@
         <div class="login-form">
             <div class="login-content">
                 <form method="post" role="form" id="register">
-                    <div class="form-group">
+                    <div style="display:none;" class="form-group">
                         <p>Country</p>
-                        <div class="input-group">
-                            <div class="input-group-addon">
-                                <i class="entypo-address"></i>
-                            </div>
-                            <select class="select2" name="country">
-                                <option></option>
-                                <optgroup label="Country">
-                                    <option selected="selected">UAE</option>
-                                    <option>KSA</option>
-                                    <option>Bahrain</option>
-                                    <option>Qatar</option>
-                                    <option>Oman</option>
-                                    <option>kuwait</option>
-                                </optgroup>
-                            </select>
-                        </div>
+                    <input type="text" required class="form-control" value="jordan"
+                           name="country" id="country" placeholder="country" disabled />
                     </div>
                     <div class="form-group">
                         <div class="input-group">
@@ -91,16 +77,22 @@
 
                         </div>
                     </div>
-                    <div class="form-group">
-                        <div class="input-group">
-                            <div class="input-group-addon">
-                                <i class="entypo-mobile"></i>
-                            </div>
-                            <input  type="tel"  
-                                   required class="form-control"
-                                   name="Mobile" id="mobile" placeholder="Mobile" />
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <i class="entypo-mobile"></i>
                         </div>
+                        <input type="tel"
+                               required
+                               class="form-control"
+                               name="Mobile"
+                               id="mobile"
+                               placeholder="Mobile (e.g., 0791234567)"
+                               maxlength="10" />
                     </div>
+                    <!-- Error message display container -->
+                    <span id="mobileError" class="text-danger" style="display:none; margin-top:5px; font-size:12px;"></span>
+                </div>
 
                     <div class="form-group">
                         <div class="input-group">
@@ -162,6 +154,59 @@
                 }
             }
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('register');
+            const mobileInput = document.getElementById('mobile');
+            const errorSpan = document.getElementById('mobileError');
+
+            // Regex for 077, 078, or 079 followed by exactly 7 digits (Total: 10 digits)
+            const mobileRegex = /^07[789]\d{7}$/;
+
+            function validateMobile() {
+                const value = mobileInput.value.trim();
+
+                if (!value) {
+                    errorSpan.textContent = 'Mobile number is required.';
+                    errorSpan.style.display = 'block';
+                    mobileInput.classList.add('is-invalid');
+                    return false;
+                }
+
+                if (!mobileRegex.test(value)) {
+                    errorSpan.textContent = 'Mobile must start with 077, 078, or 079 and be exactly 10 digits.';
+                    errorSpan.style.display = 'block';
+                    mobileInput.classList.add('is-invalid');
+                    return false;
+                }
+
+                // Clear error if valid
+                errorSpan.textContent = '';
+                errorSpan.style.display = 'none';
+                mobileInput.classList.remove('is-invalid');
+                return true;
+            }
+
+            // Live validation while typing
+            mobileInput.addEventListener('input', function() {
+                // Restrict input to digits only
+                this.value = this.value.replace(/\D/g, '');
+                if (this.value.length >= 3) {
+                    validateMobile();
+                }
+            });
+
+            // Intercept form submit event
+            form.addEventListener('submit', function(event) {
+                if (!validateMobile()) {
+                    event.preventDefault(); // Stop form submission
+                    event.stopPropagation();
+                    mobileInput.focus();
+                }
+            });
+        });
+
+
     </script>
 </body>
 

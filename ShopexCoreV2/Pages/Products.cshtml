@@ -118,13 +118,15 @@
                                 {
                                     <tr>
                                         <td class="vcenter"><input type="checkbox"></td>
-                                        <td class="image thumb">
-                                            <img style="width:25px" src="@item.ImagePath" />
+                                        <td   onclick="enlargeImg(this);" class="image thumb">
+                                            <img style="width:25px" class="image" src="@item.ImagePath" />
                                         </td>
+
+
                                         <td class="vcenter">
                                             <a asp-page="AddProduct">@item.Title</a>
                                         </td>
-                                        <td class="vcenter">@item.Price</td>
+                                        <td asp-for="A" class="vcenter">@item.Price</td>
                                         <td class="vcenter">@item.Model</td>
                                         <td class="vcenter">@item.Type </td>
                                         <td class="vcenter">
@@ -198,11 +200,34 @@
     <script src="~/js/neon-demo.js"></script>
 
     <script type="text/javascript">
+        $("document").ready(function () {
+            //$(".table").click(function () {
+            //    $('img').each(function () {
+            //        $(this)[0].style.transform = "scale(0.0)";
+            //    });
+            //});
+        });
+
+
         function myFunction(param) {
             $("#UserEmail").val($(param).data("email"));
             $("#UserMobile").val($(param).data("mobile"));
             $('#UserModal').modal('show');
         }
+        function enlargeImg(param) {
+            var s = $(param)[0].firstElementChild.style.transform;
+            console.log(s);
+            if (s == "scale(4.5)") {
+                $(param)[0].firstElementChild.style.transform = "scale(1,1)";
+            }
+            else {
+                $(param)[0].firstElementChild.style.transform = "scale(4.5)";
+            }
+            
+        }
+
+
+
     </script>
 </body>
 </html>

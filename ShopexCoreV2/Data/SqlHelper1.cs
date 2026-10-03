@@ -103,8 +103,7 @@ namespace ShopexCoreV2.Data
             // Pass through the call providing null for the set of SqlParameters
             return ExecuteNonQuery(connectionString, commandType, commandText, null);
         }
-        public static int ExecuteNonQuery(string connectionString, CommandType commandType,
-            string commandText, params SqlParameter[] commandParameters)
+        public static int ExecuteNonQuery(string connectionString, CommandType commandType,  string commandText, params SqlParameter[] commandParameters)
         {
             if (string.IsNullOrEmpty(connectionString)) throw new ArgumentNullException("connectionString");
             using (var connection = new SqlConnection(connectionString))
