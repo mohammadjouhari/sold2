@@ -21,6 +21,16 @@ namespace ShopexCoreV2.Pages
         public List<Product> Products { get; set; }
 
 
+        [BindProperty(SupportsGet = true)]
+        public string? SearchTerm { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public int PageIndex { get; set; } = 1;
+
+        public int TotalPages { get; set; }
+        public int PageSize { get; set; } = 10;
+
+
 
         public IActionResult OnGet()
         {
@@ -49,6 +59,35 @@ namespace ShopexCoreV2.Pages
                         Mobile = r["Mobile"].ToString(),
                     }).ToList();
                 }
+
+
+                if (!string.IsNullOrWhiteSpace(SearchTerm))
+                {
+                    var term = SearchTerm.Trim().ToLower();
+                    Products = Products.Where(p =>
+                        p.Title.ToLower().Contains(term) ||
+                        p.Model.ToLower().Contains(term) ||
+                        p.Type.ToLower().Contains(term)).ToList();
+                }
+
+                // 2. Total Count & Page Bounds
+                int count = Products.Count();
+                TotalPages = (int)Math.Ceiling(count / (double)PageSize);
+                if (TotalPages < 1) TotalPages = 1;
+
+                if (PageIndex < 1) PageIndex = 1;
+                if (PageIndex > TotalPages) PageIndex = TotalPages;
+
+                // 3. Paginated Data Fetch
+                Products = Products
+                    .OrderByDescending(p => p.Id)
+                    .Skip((PageIndex - 1) * PageSize)
+                    .Take(PageSize)
+                    .ToList();
+
+
+
+
                 //"https:" + "\\" + Request.Host.Value + "\\"
                 return this.Page();
             }
