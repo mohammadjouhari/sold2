@@ -18,14 +18,43 @@
     <link rel="stylesheet" href="~/css/neon-forms.css">
     <link rel="stylesheet" href="~/css/custom.css">
     <script src="~/js/jquery-1.11.0.min.js"></script>
+
+    <style>
+            /* Responsive adjustments */
+            @media (max-width: 767px) {
+                .header-actions {
+                    margin-top: 10px;
+                    margin-bottom: 15px;
+                }
+
+                    .header-actions .btn {
+                        width: 100%;
+                        text-align: center;
+                    }
+
+                .shopex-table td, .shopex-table th {
+                    white-space: nowrap;
+                }
+
+                .thumb img {
+                    transition: transform 0.2s ease-in-out;
+                }
+            }
+
+            .thumb {
+                cursor: pointer;
+                position: relative;
+                z-index: 10;
+            }
+    </style>
 </head>
-<body>
-    <div class="page-container" class="page-body" data-url="http://neon.dev">
+<body class="page-body" data-url="http://neon.dev">
+    <div class="page-container">
         <div class="sidebar-menu">
             <header class="logo-env">
                 <div class="logo">
                     <a asp-page="Products">
-                        <img src="~/images/JouhariLogo.jpg" width="120" alt="" />
+                        <img src="~/images/JouhariLogo.jpg" width="120" alt="Logo" />
                     </a>
                 </div>
                 <div class="sidebar-mobile-menu visible-xs">
@@ -43,7 +72,6 @@
                         </button>
                     </form>
                 </li>
-
                 <li class="active">
                     <a href="#">
                         <i class="entypo-tag"></i>
@@ -58,26 +86,27 @@
                 </li>
             </ul>
         </div>
+
         <div class="main-content">
+            <!-- Header Row -->
             <div class="row">
-                <div class="col-md-8">
+                <div class="col-xs-12 col-sm-8">
                     <ol class="breadcrumb bc-3">
                         <li>
                             <a asp-page="products"><i class="entypo-home"></i>Home</a>
                         </li>
                     </ol>
                 </div>
-                <div class="col-md-4">
-                    <div class="pull-right">
+                <div class="col-xs-12 col-sm-4 header-actions">
+                    <div class="pull-right pull-left-xs">
                         <a class="btn btn-blue" asp-page="AddProduct">Add a product</a>
                     </div>
                 </div>
             </div>
+
             <div class="tab-content">
                 <div class="tab-pane active" id="all-products">
-
                     <div>
-
                         <!-- Search Products -->
                         <form method="get" class="search-bar" action="" enctype="application/x-www-form-urlencoded">
                             <div class="input-group">
@@ -89,77 +118,84 @@
                                 </div>
                             </div>
                         </form>
-                        <!-- Table -->
-                        <table class="table responsive shopex-table">
-                            <thead>
-                                <tr>
-                                    <th class="select"><input type="checkbox"></th>
-                                    <th class="image"></th>
-                                    <th class="is-sortable sorted-asc">
-                                        <span>Product</span>
-                                    </th>
-                                    <th class="is-sortable">
-                                        <span>Price</span>
-                                    </th>
-                                    <th class="is-sortable">
-                                        <span>Model</span>
-                                    </th>
-                                    <th class="is-sortable">
-                                        <span>Type</span>
-                                    </th>
-                                    <th class="is-sortable">
-                                        <span>Cart</span>
-                                    </th>
-                                </tr>
-                            </thead>
 
-                            <tbody>
-                                @foreach (var item in Model.Products)
-                                {
+                        <br />
+
+                        <!-- Responsive Table Wrapper -->
+                        <div class="table-responsive">
+                            <table class="table shopex-table">
+                                <thead>
                                     <tr>
-                                        <td class="vcenter"><input type="checkbox"></td>
-                                        <td   onclick="enlargeImg(this);" class="image thumb">
-                                            <img style="width:25px" class="image" src="@item.ImagePath" />
-                                        </td>
-
-
-                                        <td class="vcenter">
-                                            <a asp-page="AddProduct">@item.Title</a>
-                                        </td>
-                                        <td asp-for="A" class="vcenter">@item.Price</td>
-                                        <td class="vcenter">@item.Model</td>
-                                        <td class="vcenter">@item.Type </td>
-                                        <td class="vcenter">
-                                            <button type="button"
-                                                    data-email="@item.Email"
-                                                    onclick="myFunction(this)"
-                                                    data-mobile="@item.Mobile"
-                                                    class="btn btn-orange">
-                                                Contact The Owner
-                                            </button>
-                                        </td>
+                                        <th class="select"><input type="checkbox"></th>
+                                        <th class="image">Image</th>
+                                        <th class="is-sortable sorted-asc">
+                                            <span>Product</span>
+                                        </th>
+                                        <th class="is-sortable">
+                                            <span>Price</span>
+                                        </th>
+                                        <th class="is-sortable">
+                                            <span>Model</span>
+                                        </th>
+                                        <th class="is-sortable">
+                                            <span>Type</span>
+                                        </th>
+                                        <th class="is-sortable">
+                                            <span>Action</span>
+                                        </th>
                                     </tr>
-                                }
-                            </tbody>
-                        </table>
+                                </thead>
 
-                        <!-- Navigation -->
-                        <ul class="pagination">
-                            <li><a href="#"><i class="entypo-left-open-mini"></i></a></li>
-                            <li><a href="#">1</a></li>
-                            <li class="active"><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li class="disabled"><a href="#">4</a></li>
-                            <li><a href="#">5</a></li>
-                            <li><a href="#">6</a></li>
-                            <li><a href="#"><i class="entypo-right-open-mini"></i></a></li>
-                        </ul>
+                                <tbody>
+                                    @foreach (var item in Model.Products)
+                                    {
+                                        <tr>
+                                            <td class="vcenter"><input type="checkbox"></td>
+                                            <td onclick="enlargeImg(this);" class="image thumb">
+                                                <img style="width:25px" class="image" src="@item.ImagePath" alt="@item.Title" />
+                                            </td>
+                                            <td class="vcenter">
+                                                <a asp-page="AddProduct">@item.Title</a>
+                                            </td>
+                                            <td class="vcenter">@item.Price</td>
+                                            <td class="vcenter">@item.Model</td>
+                                            <td class="vcenter">@item.Type</td>
+                                            <td class="vcenter">
+                                                <button type="button"
+                                                        data-email="@item.Email"
+                                                        onclick="myFunction(this)"
+                                                        data-mobile="@item.Mobile"
+                                                        class="btn btn-orange btn-sm">
+                                                    Contact The Owner
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Pagination -->
+                        <div class="text-center-xs">
+                            <ul class="pagination">
+                                <li><a href="#"><i class="entypo-left-open-mini"></i></a></li>
+                                <li><a href="#">1</a></li>
+                                <li class="active"><a href="#">2</a></li>
+                                <li><a href="#">3</a></li>
+                                <li class="disabled"><a href="#">4</a></li>
+                                <li><a href="#">5</a></li>
+                                <li><a href="#">6</a></li>
+                                <li><a href="#"><i class="entypo-right-open-mini"></i></a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
             <br />
         </div>
     </div>
+
+    <!-- Modal -->
     <div class="modal fade" id="UserModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -172,11 +208,11 @@
                 <div class="modal-body">
                     <form>
                         <div class="form-group">
-                            <label for="recipient-name" class="col-form-label">Email:</label>
+                            <label for="UserEmail" class="col-form-label">Email:</label>
                             <input type="text" class="form-control" id="UserEmail">
                         </div>
                         <div class="form-group">
-                            <label for="message-text" class="col-form-label">Mobile:</label>
+                            <label for="UserMobile" class="col-form-label">Mobile:</label>
                             <input type="text" id="UserMobile" class="form-control">
                         </div>
                     </form>
@@ -188,6 +224,7 @@
             </div>
         </div>
     </div>
+
     <script src="~/js/gsap/main-gsap.js"></script>
     <script src="~/js/jquery-ui/js/jquery-ui-1.10.3.minimal.min.js"></script>
     <script src="~/js/bootstrap.js"></script>
@@ -200,36 +237,23 @@
     <script src="~/js/neon-demo.js"></script>
 
     <script type="text/javascript">
-        $("document").ready(function () {
-            //$(".table").click(function () {
-            //    $('img').each(function () {
-            //        $(this)[0].style.transform = "scale(0.0)";
-            //    });
-            //});
-        });
-
-
-        function myFunction(param) {
-            $("#UserEmail").val($(param).data("email"));
-            $("#UserMobile").val($(param).data("mobile"));
-            $('#UserModal').modal('show');
-        }
-        function enlargeImg(param) {
-            var s = $(param)[0].firstElementChild.style.transform;
-            console.log(s);
-            if (s == "scale(4.5)") {
-                $(param)[0].firstElementChild.style.transform = "scale(1,1)";
+            function myFunction(param) {
+                $("#UserEmail").val($(param).data("email"));
+                $("#UserMobile").val($(param).data("mobile"));
+                $('#UserModal').modal('show');
             }
-            else {
-                $(param)[0].firstElementChild.style.transform = "scale(4.5)";
+
+            function enlargeImg(param) {
+                var img = $(param).find('img')[0];
+                if (!img) return;
+
+                var currentTransform = img.style.transform;
+                if (currentTransform === "scale(4.5)") {
+                    img.style.transform = "scale(1)";
+                } else {
+                    img.style.transform = "scale(4.5)";
+                }
             }
-            
-        }
-
-
-
     </script>
 </body>
 </html>
-
-
